@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+
+  sites:
+    image: takeru0757/wordpress-env/php:7.2.14
+    build: ./docker-images/php
+    ports:
+      - "80:80"
+    environment:
+      DB_HOST: mysql
+      DB_USERNAME: root
+      DB_PASSWORD: (null)
+    volumes:
+      - ./sites:/var/www/html/sites:cached
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:5.6
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - mysql-data:/var/lib/mysql:cached
+
+volumes:
+  mysql-data:
